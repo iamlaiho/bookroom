@@ -11,11 +11,7 @@ deploy:
 services:
   - postgresql
 
-before_script:
-  - psql -c 'create database bookroom_test;' -U postgres
-  - psql -c 'create database bookroom_production;' -U postgres
-
 script:
-- bundle exec rake db:migrate RAILS_ENV=production
-- bundle exec rake db:migrate db:test:prepare
-- bundle exec rspec
+  - bundle exec rake db:migrate RAILS_ENV=production
+  - bundle exec rake db:migrate db:test:prepare
+  - bundle exec rspec
