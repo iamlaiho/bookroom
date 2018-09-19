@@ -5,5 +5,5 @@ rvm:
 deploy:
   provider: heroku
   api_key:
-    secure: <%= ENV["HEROKU_API_KEY"] %>
+    secure: <%= Rails.application.secrets.heroku_api_key %>
     app: bookroom
