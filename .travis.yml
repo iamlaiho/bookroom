@@ -10,6 +10,7 @@ deploy:
 
 before_script:
   - psql -c 'create database bookroom_test;' -U postgres
+  - psql -c 'create database bookroom_production;' -U postgres
 
 script:
 - export RAILS_ENV=test
