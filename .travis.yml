@@ -2,8 +2,8 @@ language: ruby
 rvm:
   - 2.5.1
 
-#deploy:
-#  provider: heroku
-#  api_key:
-#    secure: 
-#    app: bookroom
+deploy:
+  provider: heroku
+  api_key:
+    secure: <%= Rails.application.secrets.heroku_api_key =%>
+    app: bookroom
