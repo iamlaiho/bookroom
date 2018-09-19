@@ -5,5 +5,5 @@ rvm:
 deploy:
   provider: heroku
   api_key:
-    secure: <%= ENV["HEROKU_API_KEY"] %>
+    secure: 5f4bf067-3aa4-4edb-8f1c-6203b410a1f6
     app: bookroom
