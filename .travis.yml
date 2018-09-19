@@ -8,6 +8,9 @@ deploy:
     secure: 5KmfKvsbPQ20YWnbGP/vmbtg4f4NaAiN1jfdygWIIPVJD+29jtX9T8ZeErfNihTfT0SpLry+i0/9Q8GqciDcYZDaWixZBtykCv2ZgL3obh69uWU7JSqMs+evepFkDEGUND6G93tlCQmA43Hqa+8QMnIxQQF3jcOEbJE0AcJ++3LR9Sb54+f7++SF/mMY1b2PmG1RxLlzS7yrfdI60VJHDXFe9k4qMy99lO1+UpbEIug8hUiStZSuKpCAjBDDc+Z4iLKuGtr4ahQ3ceEZQkY/l4aPh8wzK18DOeNknIneN+muxVcEqqIOR76PXiPhkntgrPsSRPHVWuaPfKQxn9q4Bf6Hy1af3UWProPQAR6JBC/j67DvG48kXqM89aW5IrWwq4bdutSPfpKwCkWOJ+7L6gV14nNHGV7z2+uXyLTEtoCIXmAcy0FRQz1kIlUAifIX9VSLGKsv+YX0LrD+7pLHl+7siL5XXXqWgPgLbs64rKVlPOiym0LKEE5B9bE3JQdk55ZAVnV44THQbqBRB2QVOpt1j2AlN2k0JRMx9ERry/QQRDUt7moYK+lHb6ZD+2UTtmlu4X8eagWL+iIOQglegbl5WM3s2vpjwS8wio64iMfQps09RybVK/jRflR4GiXncIN4dLCrfHjNKf4rYijVDP+j3HkkXArM2IbuZp19/Gg=
     app: bookroom
 
+services:
+  - postgresql
+
 before_script:
   - psql -c 'create database bookroom_test;' -U postgres
   - psql -c 'create database bookroom_production;' -U postgres
