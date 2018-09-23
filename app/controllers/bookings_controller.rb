@@ -7,19 +7,24 @@ class BookingsController < ApplicationController
 
 	def new
 		@search = BookingSearch.new(params[:start_date])
-		@bookings = @search.scope
-		get_available_slots
-		@selected_date = params[:start_date]
+		if @search.valid?
+			@bookings = @search.scope
+			get_available_slots
+			@selected_date = params[:start_date]
+		else
+			@search.errors.each do |field, msg|
+				flash[:error] = msg
+			end
+			redirect_to bookings_path(id: session[:user_id])
+		end 
 	end
 
 	def create
 		@booking = Booking.new(booking_params)
-		if @booking.save
-			logger.debug "created"
-			redirect_to bookings_path(id: session[:user_id])
-		else 
-			logger.debug "#{@booking.errors.messages}"
+		if !@booking.save
+			flash[:error] = "Something went wrong. Please try again."
 		end
+		redirect_to bookings_path(id: session[:user_id])
 	end
 
 	private
@@ -28,15 +33,12 @@ class BookingsController < ApplicationController
 		end
 
 		def get_available_slots
-			start_time_date = params[:start_date].to_time.next_day.utc.beginning_of_day
-			end_time_date = params[:start_date].to_time.next_day.utc.end_of_day
-
-			create_all_slots(start_time_date)
-
-			remove_booked_slots(start_time_date, end_time_date)
+			create_all_slots
+			remove_booked_slots
 		end
 
-		def create_all_slots(start_time_date)
+		def create_all_slots
+			start_time_date = params[:start_date].to_time.next_day.utc.beginning_of_day
 			@available_slots = []
 			rooms = Room.all
 			rooms.each do |room|
@@ -49,15 +51,9 @@ class BookingsController < ApplicationController
 			end
 		end
 
-		def remove_booked_slots(start_time_date, end_time_date)
-			#bookings = get_booked_slots(start_time_date, end_time_date)
-
+		def remove_booked_slots
 			@bookings.each do |booking|
 				@available_slots.delete_if{|available_slot| available_slot.start_date == booking.start_date && available_slot.room.id == booking.room.id}
 			end
-		end
-
-		def get_booked_slots(start_time_date, end_time_date)
-			Booking.where('start_date BETWEEN ? AND ?', start_time_date, end_time_date)
 		end
 end
