@@ -1,1 +1,23 @@
-<h1> test <ht>
+<div class="container">
+	<h3>Available slots on <%= @selected_date %></h3>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Room Number</th>
+				<th>Start Time</th>
+				<th>End Time</th>
+				<th>Book</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @available_slots.sort_by { |e| [e.start_date, e.room_id]}.each do |booking|%>
+				<tr>
+					<td><%= booking.room.number %></td>
+					<td><%= booking.start_date.strftime("%H:%M") %></td>
+					<td><%= booking.end_date.strftime("%H:%M")  %></td>
+					<td><%= link_to "Book", bookings_path(:booking => {:user_id => session[:user_id], :room_id => booking.room_id, :start_date => booking.start_date, :end_date => booking.end_date}), method: :post %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>

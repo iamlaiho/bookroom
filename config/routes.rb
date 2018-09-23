@@ -4,5 +4,5 @@ Rails.application.routes.draw do
   resources :users
   resources :bookings
 
-  root 'users#new'
+  root 'users#index', as: 'home'
 end
