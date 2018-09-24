@@ -12,6 +12,7 @@ services:
   - postgresql
 
 script:
+  - bundle exec rake test
   - bundle exec rake db:migrate db:test:prepare RAILS_ENV=test --trace
   - bundle exec rake db:migrate RAILS_ENV=production --trace
 #  - bundle exec rspec
