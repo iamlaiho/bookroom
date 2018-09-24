@@ -13,7 +13,7 @@ services:
 
 script:
   - bundle exec rake db:migrate db:test:prepare RAILS_ENV=test --trace
-  - bundle exec rake db:migrate
+  - bundle exec rake db:migrate RAILS_ENV=production 
 #  - bundle exec rspec
 
 before_script:
