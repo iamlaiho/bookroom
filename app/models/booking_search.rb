@@ -10,7 +10,6 @@ class BookingSearch
 
 	def scope
 		puts "start: #{@start_time_date}"
-		puts "end: #{@end_time_date}"
-		Booking.where('start_date BETWEEN ? AND ?', @start_time_date.to_time.next_day.utc.beginning_of_day, @start_time_date.to_time.next_day.utc.end_of_day)
+		Booking.where('start_date BETWEEN ? AND ?', @start_time_date.to_time.utc.beginning_of_day, @start_time_date.to_time.utc.end_of_day)
 	end
 end
