@@ -38,7 +38,7 @@ class BookingsController < ApplicationController
 		end
 
 		def create_all_slots
-			start_time_date = params[:start_date].to_time.next_day.utc.beginning_of_day
+			start_time_date = params[:start_date].to_time.utc.beginning_of_day
 			@available_slots = []
 			rooms = Room.all
 			rooms.each do |room|
