@@ -2,6 +2,7 @@ class UsersController < ApplicationController
 	
 	def index
 		@user = User.new
+		session.delete(:user_id)
 	end
 
 	def create

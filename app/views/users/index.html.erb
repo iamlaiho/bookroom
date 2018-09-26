@@ -1,17 +1,26 @@
 <div class="container">
 	<%= form_with scope: :user, url: users_path, local: true do |form| %>
-		
-		<% if @user.errors.any? %>
-			<% @user.errors.each do |field, msg| %>
-				<div class="alert alert-danger" role="alert">
-					<%= msg %>
-				</div>
-			<% end %>
-		<% end %>
 
-		<div class="form-inline">
-			<%= form.text_field :name, class: 'form-control', placeholder: 'Name' %>
-			<%= form.submit "Login", class: 'btn btn-primary' %>
+		<div class="center-block ">
+			<div class="center-block-margin">
+				<div class="company-title text-center"><h2>Starfall</h2></div>
+
+				<div class="form-group">
+					<% if @user.errors.any? %>
+						<% @user.errors.each do |field, msg| %>
+							<div class="alert alert-danger" role="alert">
+								<%= msg %>
+							</div>
+						<% end %>
+					<% end %>
+					<%= form.text_field :name, class: 'form-control', placeholder: 'Name' %>
+				</div>
+				<%= form.submit "Log in", class: 'btn btn-primary btn-block' %>
+				
+				<div class="forget-password-text">Forget username?
+					<div class="forget-password-hover">It is your assigned company ID!</div>
+				</div>
+			</div>
 		</div>
 
 	<% end %>
