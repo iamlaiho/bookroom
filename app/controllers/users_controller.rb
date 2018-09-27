@@ -3,6 +3,7 @@ class UsersController < ApplicationController
 	def index
 		@user = User.new
 		session.delete(:user_id)
+		session.delete(:user_name)
 	end
 
 	def create
@@ -11,7 +12,8 @@ class UsersController < ApplicationController
  			render 'index'
  		else
  			session[:user_id] = @user.id
- 			redirect_to bookings_path(id: @user)
+ 			session[:user_name] = @user.name
+ 			redirect_to bookings_path
  		end
     end
 

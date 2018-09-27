@@ -113,5 +113,9 @@
 .forget-password-text:hover .forget-password-hover{
  	visibility: visible;
 	opacity: 1;
-	transition: visibility 0s, opacity 0.3s ease-in-out;
+	transition: opacity 0.3s ease-in-out;
+}
+
+.search-form {
+	margin: 25px 0px 35px;
 }

@@ -1,23 +1,75 @@
 <div class="container">
-	<h3>Available slots on <%= @selected_date %></h3>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Room Number</th>
-				<th>Start Time</th>
-				<th>End Time</th>
-				<th>Book</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% @available_slots.sort_by { |e| [e.start_date, e.room_id]}.each do |booking|%>
-				<tr>
-					<td><%= booking.room.number %></td>
-					<td><%= booking.start_date.strftime("%H:%M") %></td>
-					<td><%= booking.end_date.strftime("%H:%M")  %></td>
-					<td><%= link_to "Book", bookings_path(:booking => {:user_id => session[:user_id], :room_id => booking.room_id, :start_date => booking.start_date, :end_date => booking.end_date}), method: :post %></td>
-				</tr>
+	<div class="search-form">
+		<%= form_tag new_booking_path, method: :get do %>
+
+			<% if flash[:error] %>
+				<div class="alert alert-danger">
+					<%= flash[:error] %>
+				</div>
 			<% end %>
-		</tbody>
-	</table>
+
+			<div class="form-inline">
+				<h4>Search room by date</h4>
+				<%= text_field_tag :start_date, "", class: 'form-control', placeholder: 'YYYY-MM-DD' %>
+				<%= submit_tag "Search", class: 'btn btn-primary' %>
+			</div>
+		<% end %>
+	</div>
+
+	<hr>
+	<ul class="nav nav-tabs">
+    	<li class="active"><a href="#tab1" data-toggle="tab">Available</a></li>
+    	<li><a href="#tab2" data-toggle="tab">Booked</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" id="tab1">
+			<% if !@available_slots.blank? %>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Room Number</th>
+						<th>Start Time</th>
+						<th>End Time</th>
+						<th>Book</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @available_slots.sort_by { |e| [e.start_date, e.room_id]}.each do |booking|%>
+						<tr>
+							<td><%= booking.room.number %></td>
+							<td><%= booking.start_date.strftime("%H:%M") %></td>
+							<td><%= booking.end_date.strftime("%H:%M")  %></td>
+							<td><%= link_to "Book", bookings_path(:booking => {:user_id => session[:user_id], :room_id => booking.room_id, :start_date => booking.start_date, :end_date => booking.end_date}), method: :post %></td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+			<% else %>
+				There is no more room available on <%= @selected_date %>!
+			<% end %>
+		</div>
+
+		<div class="tab-pane" id="tab2">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Room Number</th>
+						<th>Start Time</th>
+						<th>End Time</th>
+						<th>Booked By</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @bookings.sort_by { |e| [e.start_date, e.room_id]}.each do |booking|%>
+						<tr>
+							<td><%= booking.room.number %></td>
+							<td><%= booking.start_date.strftime("%H:%M") %></td>
+							<td><%= booking.end_date.strftime("%H:%M")  %></td>
+							<td><%= booking.user.name %></td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>

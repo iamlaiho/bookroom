@@ -1,8 +1,7 @@
 class BookingsController < ApplicationController
 	
 	def index
-		@user = User.find(params[:id])
-		@booked_slots = Booking.where(user_id: params[:id])
+		@booked_slots = Booking.where(user_id: session[:user_id])
 	end
 
 	def new
@@ -23,6 +22,8 @@ class BookingsController < ApplicationController
 		@booking = Booking.new(booking_params)
 		if !@booking.save
 			flash[:error] = "Something went wrong. Please try again."
+		else
+			flash[:success] = "You have successfully booked a room!"
 		end
 		redirect_to bookings_path(id: session[:user_id])
 	end
@@ -38,16 +39,22 @@ class BookingsController < ApplicationController
 		end
 
 		def create_all_slots
-			start_time_date = params[:start_date].to_time.utc.beginning_of_day
+			start_time_date = params[:start_date].to_date
+			if start_time_date.today?
+				start_hour = 18 - (DateTime.now.end_of_day - DateTime.now).round
+			else 
+				start_hour = 8
+			end
+			
 			@available_slots = []
 			rooms = Room.all
 			rooms.each do |room|
-				for hour in 8...18 do
+				for hour in start_hour...18 do
 					@available_slots << Booking.new(
 									:room_id => room.id, 
 									:start_date => start_time_date + hour.hours, 
 									:end_date => start_time_date + (hour + 1).hours)
-					end
+					end		
 			end
 		end
 
