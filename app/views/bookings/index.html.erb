@@ -15,15 +15,15 @@
 			<% end %>
 
 			<div class="form-inline">
-				<h4>Search room by date</h4>
-				<%= text_field_tag :start_date, "", class: 'form-control', placeholder: 'YYYY-MM-DD' %>
+				<h4>Search for a room</h4>
+				<%= text_field_tag :start_date, "", data:{ provide:'datepicker' }, class: 'form-control', placeholder: 'YYYY-MM-DD', autocomplete: 'off', id: 'search-date' %>
 				<%= submit_tag "Search", class: 'btn btn-primary' %>
 			</div>
 		<% end %>
 	</div>
 
 	<hr>
-	<h3>Your Booking History</h3>
+	<h4>Your Room Booking History</h4>
 	<table class="table">
 		<thead>
 			<tr>
@@ -34,7 +34,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<% @booked_slots.sort_by { |e| [e.start_date, e.room_id]}.each do |booking|%>
+			<% @booked_slots.sort_by { |e| [e.start_date, e.room_id]}.reverse!.each do |booking|%>
 				<tr>
 					<td><%= booking.room.number %></td>
 					<td><%= booking.start_date.strftime("%Y-%m-%d") %></td>

@@ -45,7 +45,7 @@ class BookingsController < ApplicationController
 			else 
 				start_hour = 8
 			end
-			
+
 			@available_slots = []
 			rooms = Room.all
 			rooms.each do |room|

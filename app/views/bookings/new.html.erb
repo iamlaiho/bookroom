@@ -9,18 +9,22 @@
 			<% end %>
 
 			<div class="form-inline">
-				<h4>Search room by date</h4>
-				<%= text_field_tag :start_date, "", class: 'form-control', placeholder: 'YYYY-MM-DD' %>
+				<h4>Search for a room</h4>
+				<%= text_field_tag :start_date, "", data:{ provide:'datepicker' }, class: 'form-control', placeholder: 'YYYY-MM-DD', autocomplete: 'off', id: 'search-date'  %>
 				<%= submit_tag "Search", class: 'btn btn-primary' %>
 			</div>
 		<% end %>
 	</div>
 
 	<hr>
-	<ul class="nav nav-tabs">
-    	<li class="active"><a href="#tab1" data-toggle="tab">Available</a></li>
-    	<li><a href="#tab2" data-toggle="tab">Booked</a></li>
-	</ul>
+	<h4>Rooms availability on <%= @selected_date%></h3>
+	<div class="tab-container">
+		<ul class="nav nav-tabs nav-justified">
+	    	<li class="active"><a href="#tab1" data-toggle="tab">Available</a></li>
+	    	<li><a href="#tab2" data-toggle="tab">Booked</a></li>
+		</ul>
+	</div>
+
 	<div class="tab-content">
 		<div class="tab-pane active" id="tab1">
 			<% if !@available_slots.blank? %>
@@ -45,31 +49,39 @@
 				</tbody>
 			</table>
 			<% else %>
-				There is no more room available on <%= @selected_date %>!
+				<div class="notice-block text-center">
+					<h5>There is no more room available on <%= @selected_date %>!</h5>
+				</div>
 			<% end %>
 		</div>
 
 		<div class="tab-pane" id="tab2">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Room Number</th>
-						<th>Start Time</th>
-						<th>End Time</th>
-						<th>Booked By</th>
-					</tr>
-				</thead>
-				<tbody>
-					<% @bookings.sort_by { |e| [e.start_date, e.room_id]}.each do |booking|%>
+			<% if !@bookings.blank? %>
+				<table class="table">
+					<thead>
 						<tr>
-							<td><%= booking.room.number %></td>
-							<td><%= booking.start_date.strftime("%H:%M") %></td>
-							<td><%= booking.end_date.strftime("%H:%M")  %></td>
-							<td><%= booking.user.name %></td>
+							<th>Room Number</th>
+							<th>Start Time</th>
+							<th>End Time</th>
+							<th>Booked By</th>
 						</tr>
-					<% end %>
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						<% @bookings.sort_by { |e| [e.start_date, e.room_id]}.each do |booking|%>
+							<tr>
+								<td><%= booking.room.number %></td>
+								<td><%= booking.start_date.strftime("%H:%M") %></td>
+								<td><%= booking.end_date.strftime("%H:%M")  %></td>
+								<td><%= booking.user.name %></td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			<% else %>
+				<div class="notice-block text-center">
+					<h5>No one has book a room yet!</h5>
+				</div>
+			<% end %>
 		</div>
 	</div>
 </div>
