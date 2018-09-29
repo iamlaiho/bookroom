@@ -24,24 +24,30 @@
 
 	<hr>
 	<h4>Your Room Booking History</h4>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Room Number</th>
-				<th>Date</th>
-				<th>Start Time</th>
-				<th>End Time</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% @booked_slots.sort_by { |e| [e.start_date, e.room_id]}.reverse!.each do |booking|%>
+	<% if !@booked_slots.blank? %>
+		<table class="table">
+			<thead>
 				<tr>
-					<td><%= booking.room.number %></td>
-					<td><%= booking.start_date.strftime("%Y-%m-%d") %></td>
-					<td><%= booking.start_date.strftime("%H:%M") %></td>
-					<td><%= booking.end_date.strftime("%H:%M")  %></td>
+					<th>Room Number</th>
+					<th>Date</th>
+					<th>Start Time</th>
+					<th>End Time</th>
 				</tr>
-			<% end %>
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				<% @booked_slots.sort_by { |e| [e.start_date, e.room_id]}.reverse!.each do |booking|%>
+					<tr>
+						<td><%= booking.room.number %></td>
+						<td><%= booking.start_date.strftime("%Y-%m-%d") %></td>
+						<td><%= booking.start_date.strftime("%H:%M") %></td>
+						<td><%= booking.end_date.strftime("%H:%M")  %></td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	<% else %>
+		<div class="notice-block text-center">
+			<h5>You do not have any booking yet!</h5>
+		</div>
+	<% end %>
 </div>
