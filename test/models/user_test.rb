@@ -11,13 +11,13 @@ class UserTest < ActiveSupport::TestCase
 
     test "invalid without name" do
     	@user.name = nil
-    	refute @user.valid?, 'save user without a name'
-    	assert_not_nil @user.errors[:name],  'validation error for name present'
-   	end
+    	refute @user.valid?
+    	assert_not_nil @user.errors[:name]
+    end
 
     test "invalid with name less than five characters" do
     	@user.name = "John"
-    	refute @user.valid?, 'user with less than five characters'
-    	assert_not_nil @user.errors[:name],  'validation error for name present'
+    	refute @user.valid?
+    	assert_not_nil @user.errors[:name]
    	end
 end
