@@ -40,10 +40,12 @@ class BookingsController < ApplicationController
 
 		def create_all_slots
 			start_time_date = params[:start_date].to_date
+			start_hour = 8
 			if start_time_date.today?
-				start_hour = 18 - (DateTime.now.end_of_day - DateTime.now).round
-			else 
-				start_hour = 8
+				hour_diff = ((DateTime.now - DateTime.now.beginning_of_day) * 24).round
+				if hour_diff > 8
+					start_hour = hour_diff
+				end
 			end
 
 			@available_slots = []
