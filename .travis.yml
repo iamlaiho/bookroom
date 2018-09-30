@@ -9,6 +9,7 @@ deploy:
     app: bookroom
   run:
     - "rake db:migrate"
+    - "rake db:seed"
 
 services:
   - postgresql
