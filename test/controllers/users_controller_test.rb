@@ -2,16 +2,14 @@ require 'test_helper'
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
 	test "should get index" do
-		get users_url
+		get users_path
 		assert_response :success
 	end
-end
 
-require 'test_helper'
-
-class BookingsControllerTest < ActionDispatch::IntegrationTest
-	test "should get index" do
-		puts "booking"
-		assert_redirected_to bookings_url
+	test "should redirect to booking index" do
+		get users_path
+		assert_response :success
+		post users_path, params: { :user => { :name => 'Michael'} }
+		assert_redirected_to bookings_path
 	end
 end
